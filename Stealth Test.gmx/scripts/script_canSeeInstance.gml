@@ -1,4 +1,4 @@
-//Determine if the object is within the vision cone (not range!)
+//Determine if the object is within the field of view - but not range - of the cone
 //of the object that calls it.
 //NOTE: Should be called by the detector!
 
@@ -7,12 +7,10 @@
 //argument1 - detectee
 
 var xDifference = argument1.x - argument0.x;
-var yDifference = argument1.y - argument0.y;
+var yDifference = argument0.y - argument1.y;
 var halfCone = argument0.visionCone / 2;
+var objDir = radtodeg(arctan2(yDifference, xDifference));
 
-if ( dot_product_normalised( lengthdir_x( 1, argument0.image_angle ), lengthdir_y( 1, argument0.image_angle ), 
-        xDifference, yDifference ) >= cos( degtorad( halfCone ) ) ) {
-        return ( script_canSeeUnobstructed( argument0, argument1 ) );
-} else {
-    return false;
-}
+return (abs(angle_difference(argument0.image_angle, objDir)) <= halfCone);
+
+//Mouse checker but generalized, shouldn't have any (unique) problems

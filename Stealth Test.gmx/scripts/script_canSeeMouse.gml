@@ -6,8 +6,8 @@
 var xDifference = mouse_x - argument0.x;
 var yDifference = argument0.y - mouse_y;
 var halfCone = argument0.visionCone / 2;
+var mouseDir = radtodeg(arctan2(yDifference, xDifference));
 
-return ( dot_product_normalised( lengthdir_x( 1, argument0.image_angle ), 
-    lengthdir_y( 1, argument0.image_angle ),
-    xDifference, yDifference ) >= cos( degtorad( halfCone ) ) );
-  
+return (abs(angle_difference(argument0.image_angle, mouseDir)) <= halfCone);
+
+//Probably has edge cases but I'll worry about that later.

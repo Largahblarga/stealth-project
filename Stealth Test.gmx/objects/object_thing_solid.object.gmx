@@ -25,22 +25,31 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>rightWall = instance_create( x+31, y, object_thing_wall );
-leftWall = instance_create( x, y+31, object_thing_wall );
-topWall = instance_create( x, y, object_thing_wall );
-bottomWall = instance_create( x+31, y+31, object_thing_wall );
+            <string>xEdge = x + (32 * image_xscale) - 1;
+yEdge = y + (32 * image_yscale) - 1;
 
+rightWall = instance_create( xEdge, y, object_thing_wall );
+leftWall = instance_create( x + 1, yEdge + 1, object_thing_wall );
+topWall = instance_create( x, y + 1, object_thing_wall );
+bottomWall = instance_create( xEdge + 1, yEdge, object_thing_wall );
+
+with ( rightWall ) {
+    image_yscale = other.image_yscale;
+}
 with ( leftWall ) {
     direction = 180;
     image_angle = 180;
+    image_yscale = other.image_yscale;
 }
 with ( topWall ) {
     direction = 90;
     image_angle = 90;
+    image_yscale = other.image_xscale;
 }
 with ( bottomWall ) {
     direction = 270;
     image_angle = 270;
+    image_yscale = other.image_xscale;
 }
 </string>
           </argument>

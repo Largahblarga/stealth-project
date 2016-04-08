@@ -3,7 +3,7 @@
 
 //Arguments
 //argument0 - Type of object to look for
-//argument1 - Optional. Specifies a search range.
+//argument1 - (Optional) Specifies a search range.
 
 var temp = ds_priority_create();
 ds_priority_add( temp, self, 100000000 );

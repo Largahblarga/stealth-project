@@ -16,15 +16,16 @@
     <sprites name="Projectiles">
       <sprite>sprites\sprite_projectile_base</sprite>
     </sprites>
-    <sprite>sprites\sprite_thing_solid</sprite>
-    <sprite>sprites\sprite5</sprite>
+    <sprites name="Things">
+      <sprite>sprites\sprite_thing_solid</sprite>
+      <sprite>sprites\sprite_thing_wall</sprite>
+    </sprites>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
     <scripts name="Motion">
       <script>scripts\script_motion_turnTowardsDirection.gml</script>
-      <script>scripts\script_motion_wallHug.gml</script>
     </scripts>
     <scripts name="Detection">
       <script>scripts\script_canSeeInstance.gml</script>

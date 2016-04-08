@@ -75,7 +75,7 @@ seen = ds_queue_create();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>//For setting behavior using animation.
+            <string>//For setting behavior using animation. BECAUSE I THOUGHT IT WOULD BE ELEGANT
 image_index = 0;
 </string>
           </argument>
@@ -100,8 +100,8 @@ image_index = 0;
           <argument>
             <kind>1</kind>
             <string>//Sets color based on detection level
-//Level 1 - in vision cone, out of range
-//Level 2 - in vision cone, inside range
+//Level 1 - (yellow) in vision cone, out of range
+//Level 2 - (red) in vision cone, inside range
 if ( script_canSeeMouse( self ) ) {
     image_index = 1;
     if ( point_distance( x, y, mouse_x, mouse_y ) &lt;= 64 ) {
@@ -147,6 +147,7 @@ if ( image_index = 2 ) {
     draw_set_color( c_red );
     draw_arrow( x, y, mouse_x, mouse_y, 10 );
 }
+//I SHOULD REALLY CONSIDER NOT PUTTING THIS IN THE DRAW STEP SINC THAT SOUNDS MESSY AS HELL
 
 //Using a 1D array to store tuples... scary, in a way.
 while ( !ds_queue_empty( seen ) ) {

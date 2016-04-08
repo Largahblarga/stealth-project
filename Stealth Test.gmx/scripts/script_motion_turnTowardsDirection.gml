@@ -2,8 +2,8 @@
 //Giving it its own script since most actors will use it.
 
 //Arguments
-//argument0 - difference between desired and current angles
-//argument1 - the turning speed of the object
+//argument0 - the amount, in degrees, to turn
+//argument1 - variable to control turn speed
 
 while ( argument0 < -180 ) {
     argument0 += 360;

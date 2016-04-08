@@ -1,5 +1,8 @@
 //Determines which direction along a wall to travel toward.
 
+//OH YEAH THIS ONLY WORKS BECAUSE ALL WALLS ARE FACING A CARDINAL DIRECTION
+//ALSO THIS WAS A STUPID COMPLICATED WAY OF GOING ABOUT IT I THINK
+
 //Arguments
 //argument0 - the mover
 //argument1 - the wall

@@ -84,8 +84,12 @@ if (difference != 0) {
     image_angle += script_motion_turnTowardsDirection( difference, turnSpeed );
 }
 
-if ( place_meeting(x, y, object_thing_wall) ) {
-    image_angle = image_angle_previous;
+//Everything it saw this turn will be 'remembered'
+for (var temp = 0; temp &lt; ds_list_size(thingsSeen); temp++) {
+    var check = ds_list_find_value(thingsSeen, temp);
+    if (ds_list_find_index(thingsKnown, check) == -1) {
+        ds_list_add(thingsKnown, check);
+    }
 }
 
 
@@ -129,20 +133,19 @@ image_index = 0;
         <exetype>2</exetype>
         <functionname></functionname>
         <codestring></codestring>
-        <whoName>self</whoName>
+        <whoName>other</whoName>
         <relative>0</relative>
         <isnot>0</isnot>
         <arguments>
           <argument>
             <kind>1</kind>
             <string>aimDirection = direction;
-
 difference = aimDirection - image_angle;
 
 //Currently just snaps orientation.
 with(lineOfSight) {
     image_angle = other.image_angle;
-    direction = other.direction
+    direction = other.aimDirection;
     x = other.x;
     y = other.y;
 }
@@ -170,20 +173,12 @@ with(lineOfSight) {
             <kind>1</kind>
             <string>//Checks what actors this actor can see
 //Except from the 'perspective' of the other actors
+//LESSON LEARNED: self == -1, is only a TEMPORARY thing. USE self.id!
 with ( object_actor_base ) {
-    if ( self != other &amp;&amp; script_canSeeInstance( other, self ) ) {
-        ds_list_add( other.thingsSeen, self );
+    if (id != other.id &amp;&amp; script_canSeeUnobstructed(other.id, id) &amp;&amp; ds_list_find_index(other.thingsSeen, id) == -1) {
+        ds_list_add( other.thingsSeen, id);
     }
 }  
-
-//Actor then reacts to the other actors it saw depending on their types, via external script
-//TODO: Update to new ds_list format since shit's changed after a few years
-//Currently using the LEGACY command as a workaround in ds_list_read
-for ( x = 0; x &lt; ds_list_size( thingsSeen ); x++ ) {
-    with ( /*ds_list_read( thingsSeen, x )*/ ds_list_find_value( thingsSeen, x ) ) {
-        script_guard_reactTo( other, self );
-    }
-}
 </string>
           </argument>
         </arguments>
@@ -231,7 +226,54 @@ y -= abs( speed * sin( degtorad( other.direction ) ) ) * sin( degtorad( directio
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>aimDirection = point_direction(x, y, mouse_x, mouse_y);
+            <string>direction = point_direction(x, y, mouse_x, mouse_y);
+</string>
+          </argument>
+        </arguments>
+      </action>
+    </event>
+    <event eventtype="8" enumb="0">
+      <action>
+        <libid>1</libid>
+        <id>500</id>
+        <kind>0</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>0</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring>draw_self();</codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+      </action>
+      <action>
+        <libid>1</libid>
+        <id>603</id>
+        <kind>7</kind>
+        <userelative>0</userelative>
+        <isquestion>0</isquestion>
+        <useapplyto>-1</useapplyto>
+        <exetype>2</exetype>
+        <functionname></functionname>
+        <codestring></codestring>
+        <whoName>self</whoName>
+        <relative>0</relative>
+        <isnot>0</isnot>
+        <arguments>
+          <argument>
+            <kind>1</kind>
+            <string>draw_set_color(c_black);
+
+for ( var temp = 0; temp &lt; ds_list_size( thingsSeen ); temp++ ) {
+    with ( /*ds_list_read( thingsSeen, x )*/ ds_list_find_value( thingsSeen, temp ) ) {
+        //script_guard_reactTo( other, self );
+        draw_arrow(other.x,other.y,x,y,50);
+        
+    }
+}
+//TODO: MOVE THIS LINE INTO END STEP ONCE AI CAN BE TRUSTED
+ds_list_clear(thingsSeen);
 </string>
           </argument>
         </arguments>
